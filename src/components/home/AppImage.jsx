@@ -8,16 +8,30 @@ const AppImage = () => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 4,
     slidesToScroll: 3,
   };
   return (
-    <div className="slider-container">
-      <Slider {...settings}>
-        <div>
-          <img src="" alt="" />
-        </div>
-      </Slider>
+    <div className="pt-10">
+      <div className="slider-container flex flex-col gap-10 px-20">
+        <Slider {...settings}>
+          <div className="w-full ">
+            <img src="/bkash3.jpg" alt="" />
+          </div>
+          <div className="w-full px-2">
+            <img src="/bkash4.jpg" alt="" />
+          </div>
+          <div className="w-full px-2">
+            <img src="/bkash6.png" alt="" />
+          </div>
+          <div className="w-full">
+            <img src="/bkash7.jpg" alt="" />
+          </div>
+          <div className="w-full px-2">
+            <img src="/bkash5.jpeg" alt="" />
+          </div>
+        </Slider>
+      </div>
     </div>
   );
 };
