@@ -7,13 +7,18 @@ import Transfer from "./pages/Transfer";
 import Request from "./pages/Request";
 import Minutes from "./pages/Minutes";
 import ClientMoney from "./pages/ClientMoney";
+import RegistrationPage from "./pages/RegistrationPage";
+import LoginPage from "./pages/LoginPage";
+import Layout from "./components/layout/Layout";
 
 const App = () => {
   return (
     <BrowserRouter>
-      <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/registration" element={<RegistrationPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<Layout />} />
+        <Route index element={<Home />} />
         <Route path="/history" element={<History />} />
         <Route path="/transfer" element={<Transfer />} />
         <Route path="/request" element={<Request />} />
