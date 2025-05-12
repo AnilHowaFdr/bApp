@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="py-12">
+    <nav className="py-10">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between text-white">
           <div>
             <button className="uppercase text-xl font-semibold py-4 px-6 border rounded-full">
-              <Link>00.00 TK</Link>
+              <Link to="/request">00.00 TK</Link>
             </button>
           </div>
           <div>

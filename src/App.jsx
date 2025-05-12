@@ -17,13 +17,15 @@ const App = () => {
       <Routes>
         <Route path="/registration" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/" element={<Layout />} />
-        <Route index element={<Home />} />
-        <Route path="/history" element={<History />} />
-        <Route path="/transfer" element={<Transfer />} />
-        <Route path="/request" element={<Request />} />
-        <Route path="/minutes" element={<Minutes />} />
-        <Route path="/clientMoney" element={<ClientMoney />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/transfer" element={<Transfer />} />
+          <Route path="/request" element={<Request />} />
+          <Route path="/minutes" element={<Minutes />} />
+          <Route path="/clientMoney" element={<ClientMoney />} />
+        </Route>
+        <Route />
       </Routes>
     </BrowserRouter>
   );
