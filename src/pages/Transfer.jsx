@@ -1,7 +1,12 @@
 import React from "react";
+import TransferItems from "../components/transfer/TransferItems";
 
 const Transfer = () => {
-  return <div>Transfer</div>;
+  return (
+    <>
+      <TransferItems />
+    </>
+  );
 };
 
 export default Transfer;

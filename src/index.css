@@ -147,3 +147,10 @@ body {
     opacity: 0;
   }
 }
+
+.way {
+  @apply flex w-[160px] items-center justify-center gap-1 rounded-md border-2 border-white px-4 py-2;
+}
+.typeAgent {
+  @apply flex w-[160px] items-center justify-center gap-4 rounded-md border-2 border-white px-4 py-2;
+}

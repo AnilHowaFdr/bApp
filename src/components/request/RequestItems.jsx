@@ -30,7 +30,7 @@ const RequestItems = () => {
               placeholder="Enter your message"
             ></textarea>
           </div>
-          <button className="bg-[#00000094] shadow px-5 py-2 rounded-md mt-4 text-white font-medium text-lg">
+          <button className="bg-[#00000094] shadow px-5 py-2 rounded-md mt-4 text-white font-medium text-xl">
             <Link to="/addMoney">Send Request</Link>
           </button>
         </div>
