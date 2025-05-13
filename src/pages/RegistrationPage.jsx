@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { ToastContainer, toast } from "react-toastify";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  sendEmailVerification,
+} from "firebase/auth";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 const RegistrationPage = () => {
@@ -38,7 +44,27 @@ const RegistrationPage = () => {
       // } else {
       createUserWithEmailAndPassword(auth, user.email, user.password)
         .then((res) => {
-          console.log(res);
+          updateProfile(auth.currentUser, {
+            displayName: user.firstName + user.lastName,
+            photoURL: "/user.png",
+          })
+            .then(() => {
+              sendEmailVerification(auth.currentUser).then(() => {
+                setUser({
+                  firstName: "",
+                  lastName: "",
+                  email: "",
+                  password: "",
+                });
+                toast.success("Please Verify your email");
+              });
+            })
+            .then(() => {
+              console.log(res.user);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch((error) => {
           console.log(error.code);
@@ -52,6 +78,11 @@ const RegistrationPage = () => {
               ...userErr,
               passwordErr: "Password should be at least 6 characters!",
             });
+          } else if (error.code == "auth/email-already-in-use") {
+            setUserErr({
+              ...userErr,
+              emailErr: "Already email in use!",
+            });
           } else {
             console.log(error.message);
           }
@@ -60,6 +91,8 @@ const RegistrationPage = () => {
   };
   return (
     <div className="flex items-center justify-center min-h-screen">
+      <ToastContainer position="top-right" autoClose={5000} theme="light" />
+
       <div className="form">
         <p className="title">Register </p>
         <p className="message">Signup now and get full access to our app. </p>
@@ -74,6 +107,7 @@ const RegistrationPage = () => {
               placeholder="First Name"
               type="text"
               className="input"
+              value={user.firstName}
             />
             {userErr.firstNameErr && (
               <p className="text-red-500">{userErr.firstNameErr}</p>
@@ -90,6 +124,7 @@ const RegistrationPage = () => {
               placeholder="Last Name"
               type="text"
               className="input"
+              value={user.lastName}
             />
             {userErr.lastNameErr && (
               <p className="text-red-500">{userErr.lastNameErr}</p>
@@ -106,6 +141,7 @@ const RegistrationPage = () => {
             placeholder="Email"
             type="email"
             className="input"
+            value={user.email}
           />
           {userErr.emailErr && (
             <p className="text-red-500">{userErr.emailErr}</p>
@@ -121,6 +157,7 @@ const RegistrationPage = () => {
             placeholder="Password"
             type={passShow ? "text" : "password"}
             className="input mb-4"
+            value={user.password}
           />
           {passShow ? (
             <IoMdEye
