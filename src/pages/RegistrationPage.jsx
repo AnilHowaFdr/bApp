@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import {
   getAuth,
@@ -10,6 +10,7 @@ import {
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 const RegistrationPage = () => {
+  const navigate = useNavigate();
   const auth = getAuth();
   const [passShow, setPassShow] = useState(false);
   const [user, setUser] = useState({
@@ -57,6 +58,7 @@ const RegistrationPage = () => {
                   password: "",
                 });
                 toast.success("Please Verify your email");
+                setTimeout(() => navigate("/login"), 2000);
               });
             })
             .then(() => {
@@ -156,7 +158,7 @@ const RegistrationPage = () => {
             required=""
             placeholder="Password"
             type={passShow ? "text" : "password"}
-            className="input mb-4"
+            className="input mb-4 "
             value={user.password}
           />
           {passShow ? (
