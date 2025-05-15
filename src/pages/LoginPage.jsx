@@ -3,10 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+
 // import { FadeLoader, HashLoader } from "react-spinners";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const auth = getAuth();
   const [passShow, setPassShow] = useState(false);
   // const [loading, setLoading] = useState(false);
@@ -24,14 +27,18 @@ const LoginPage = () => {
     } else if (!user.password) {
       setUserErr({ ...userErr, passwordErr: "Password is required!" });
     } else {
-      setLoading(true);
+      // setLoading(true);
       signInWithEmailAndPassword(auth, user.email, user.password)
         .then((res) => {
+          dispatch(userData(res.user));
+          toast.success("Login successfull!");
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
           console.log(res.user);
-          toast.success("Login successfully done");
-          setTimeout(() => navigate("/"), 2000);
         })
         .catch((error) => {
+          console.log(error.code);
           if (error.code == "auth/invalid-email") {
             setUserErr({
               ...userErr,
