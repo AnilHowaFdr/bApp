@@ -3,11 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
+// import { FadeLoader, HashLoader } from "react-spinners";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const auth = getAuth();
   const [passShow, setPassShow] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -17,13 +19,12 @@ const LoginPage = () => {
     passwordErr: "",
   });
   const handleSubmit = () => {
-    // const regex = /^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$/;
-
     if (!user.email) {
       setUserErr({ ...userErr, emailErr: "Email is required!" });
     } else if (!user.password) {
       setUserErr({ ...userErr, passwordErr: "Password is required!" });
     } else {
+      setLoading(true);
       signInWithEmailAndPassword(auth, user.email, user.password)
         .then((res) => {
           console.log(res.user);
@@ -98,8 +99,8 @@ const LoginPage = () => {
           )}
         </label>
 
-        <button onClick={handleSubmit} disabled={loading} className="submit">
-          Submit
+        <button onClick={handleSubmit} className="submit">
+          log in
         </button>
         <p className="signin">
           Now Here?

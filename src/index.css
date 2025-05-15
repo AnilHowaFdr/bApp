@@ -125,7 +125,10 @@ body {
   border: none;
   outline: none;
   background-color: royalblue;
-  padding: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
   border-radius: 10px;
   color: #fff;
   font-size: 16px;

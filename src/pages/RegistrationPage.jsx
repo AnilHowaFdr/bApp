@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { FadeLoader, HashLoader } from "react-spinners";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -13,6 +14,7 @@ const RegistrationPage = () => {
   const navigate = useNavigate();
   const auth = getAuth();
   const [passShow, setPassShow] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -57,6 +59,7 @@ const RegistrationPage = () => {
                   email: "",
                   password: "",
                 });
+                setLoading(false);
                 toast.success("Please Verify your email");
                 setTimeout(() => navigate("/login"), 2000);
               });
@@ -69,7 +72,7 @@ const RegistrationPage = () => {
             });
         })
         .catch((error) => {
-          console.log(error.code);
+          setLoading(false);
           if (error.code == "auth/invalid-email") {
             setUserErr({
               ...userErr,
@@ -176,8 +179,12 @@ const RegistrationPage = () => {
             <p className="text-red-500">{userErr.passwordErr}</p>
           )}
         </label>
-        <button onClick={handleSubmit} className="submit">
-          Submit
+        <button
+          onClick={handleSubmit}
+          className="submit flex items-center justify-center h-10"
+          disabled={loading}
+        >
+          {loading ? <HashLoader color="white" /> : "Submit"}
         </button>
         <p className="signin">
           Already have an account ?
