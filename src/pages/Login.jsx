@@ -3,14 +3,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import { BarLoader } from "react-spinners";
+import { currentUserData } from "../reducer/userSlice";
 
 const Login = () => {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const auth = getAuth();
   const [passShow, setPassShow] = useState(false);
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -25,18 +27,18 @@ const Login = () => {
     } else if (!user.password) {
       setUserErr({ ...userErr, passwordErr: "Password is required!" });
     } else {
-      // setLoading(true);
+      setLoading(true);
       signInWithEmailAndPassword(auth, user.email, user.password)
         .then((res) => {
-          // dispatch(userData(res.user));
-          toast.success("Login successfull!");
+          console.log(res.user);
+          dispatch(currentUserData(res.user));
+          localStorage.setItem("userData", JSON.stringify(res.user));
+          toast.success("Login successfully done!");
           setTimeout(() => {
             navigate("/");
           }, 2000);
-          console.log(res.user);
         })
         .catch((error) => {
-          console.log(error.code);
           if (error.code == "auth/invalid-email") {
             setUserErr({
               ...userErr,
@@ -77,30 +79,35 @@ const Login = () => {
             {userErr.emailErr && (
               <p className="text-red-500">{userErr.emailErr}</p>
             )}
-            <input
-              onChange={(e) => {
-                setUser({ ...user, password: e.target.value });
-                setUserErr("");
-              }}
-              required=""
-              className="input relative"
-              type={passShow ? "text" : "password"}
-              name="password"
-              placeholder="Password"
-              value={user.password}
-            />
+            <div className="relative">
+              <input
+                onChange={(e) => {
+                  setUser({ ...user, password: e.target.value });
+                  setUserErr("");
+                }}
+                required=""
+                className="input"
+                type={passShow ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                value={user.password}
+              />
+              {passShow ? (
+                <IoMdEye
+                  onClick={() => setPassShow(false)}
+                  className="absolute text-gray-600 top-11 right-1 -translate-y-1/2 text-2xl cursor-pointer"
+                />
+              ) : (
+                <IoMdEyeOff
+                  onClick={() => setPassShow(true)}
+                  className="absolute text-gray-600 top-11 right-1 -translate-y-1/2 text-2xl cursor-pointer"
+                />
+              )}
+            </div>
 
-            {passShow ? (
-              <IoMdEye
-                onClick={() => setPassShow(false)}
-                className="absolute text-black top-7 right-0 -translate-y-1/2 text-2xl cursor-pointer"
-              />
-            ) : (
-              <IoMdEyeOff
-                onClick={() => setPassShow(true)}
-                className="absolute text-black top-7 right-0 -translate-y-1/2 text-2xl cursor-pointer"
-              />
-            )}
+            {/* <div className="absolute right-1/2 top-[48%]">
+             
+            </div> */}
 
             {userErr.passwordErr && (
               <p className="text-red-500">{userErr.passwordErr}</p>

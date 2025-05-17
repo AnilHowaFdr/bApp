@@ -3,16 +3,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
-// import { useDispatch } from "react-redux";
-
+import { useDispatch } from "react-redux";
 import { HashLoader } from "react-spinners";
+import { currentUserData } from "../reducer/userSlice";
 
 const LoginPage = () => {
-  // const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const auth = getAuth();
   const [passShow, setPassShow] = useState(false);
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -29,7 +29,7 @@ const LoginPage = () => {
     } else {
       signInWithEmailAndPassword(auth, user.email, user.password)
         .then((res) => {
-          dispatch(userData(res.user));
+          dispatch(currentUserData(res.user));
           toast.success("Login successfull!");
           setTimeout(() => {
             navigate("/");
