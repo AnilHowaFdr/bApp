@@ -3,13 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 
-// import { FadeLoader, HashLoader } from "react-spinners";
+import { HashLoader } from "react-spinners";
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  // const dispatch = useDispatch();
   const auth = getAuth();
   const [passShow, setPassShow] = useState(false);
   // const [loading, setLoading] = useState(false);
@@ -27,7 +27,6 @@ const LoginPage = () => {
     } else if (!user.password) {
       setUserErr({ ...userErr, passwordErr: "Password is required!" });
     } else {
-      // setLoading(true);
       signInWithEmailAndPassword(auth, user.email, user.password)
         .then((res) => {
           dispatch(userData(res.user));
@@ -39,27 +38,27 @@ const LoginPage = () => {
         })
         .catch((error) => {
           console.log(error.code);
-          if (error.code == "auth/invalid-email") {
-            setUserErr({
-              ...userErr,
-              emailErr: "Invalid Email!",
-            });
-          } else if (error.code == "auth/invalid-credential") {
-            setUserErr({
-              ...userErr,
-              passwordErr: "Authentication failed!",
-            });
-          } else {
-            console.log(error.code);
-            console.log(error.message);
-          }
+          // if (error.code == "auth/invalid-email") {
+          //   setUserErr({
+          //     ...userErr,
+          //     emailErr: "Invalid Email!",
+          //   });
+          // } else if (error.code == "auth/invalid-credential") {
+          //   setUserErr({
+          //     ...userErr,
+          //     passwordErr: "Authentication failed!",
+          //   });
+          // } else {
+          //   console.log(error.code);
+          //   console.log(error.message);
+          // }
         });
     }
   };
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <ToastContainer position="top-right" autoClose={5000} theme="light" />
       <form className="form">
+        <ToastContainer position="top-right" autoClose={5000} theme="light" />
         <p className="title pb-5">Log In</p>
 
         <label>

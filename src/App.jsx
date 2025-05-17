@@ -6,16 +6,17 @@ import Transfer from "./pages/Transfer";
 import Request from "./pages/Request";
 import Minutes from "./pages/Minutes";
 import ClientMoney from "./pages/ClientMoney";
-import RegistrationPage from "./pages/RegistrationPage";
-import LoginPage from "./pages/LoginPage";
+
 import Layout from "./components/layout/Layout";
+import Registration from "./pages/Registration";
+import Login from "./pages/Login";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/registration" element={<RegistrationPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<Registration />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/history" element={<History />} />
