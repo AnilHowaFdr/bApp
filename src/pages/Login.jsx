@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   getAuth,
@@ -7,11 +7,12 @@ import {
 } from "firebase/auth";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BarLoader } from "react-spinners";
 import { currentUserData } from "../reducer/userSlice";
 import { getDatabase, ref, set } from "firebase/database";
 const Login = () => {
+  const userData = useSelector((state) => state.loggedData.user);
   const navigate = useNavigate();
   const db = getDatabase();
   const dispatch = useDispatch();
@@ -37,12 +38,22 @@ const Login = () => {
         .then((res) => {
           if (res.user.emailVerified) {
             console.log(res.user);
-            dispatch(currentUserData(res.user));
-            localStorage.setItem("userData", JSON.stringify(res.user));
-            toast.success("Login successfully done!");
-            setTimeout(() => {
-              navigate("/");
-            }, 2000);
+            set(ref(db, "users/" + res.user.uid), {
+              username: res.user.displayName,
+              email: res.user.email,
+              profile_picture: res.user.photoURL,
+            })
+              .then(() => {
+                dispatch(currentUserData(res.user));
+                localStorage.setItem("userData", JSON.stringify(res.user));
+                toast.success("Login successfully done!");
+                setTimeout(() => {
+                  navigate("/");
+                }, 2000);
+              })
+              .catch(() => {
+                console.log(error.message);
+              });
           } else {
             toast.error("Email is not verified, Please verify your email.");
           }
@@ -65,6 +76,11 @@ const Login = () => {
         });
     }
   };
+  useEffect(() => {
+    if (userData) {
+      navigate("/");
+    }
+  }, []);
   return (
     <section className="bg-slate-700">
       <ToastContainer position="top-right" autoClose={5000} theme="light" />

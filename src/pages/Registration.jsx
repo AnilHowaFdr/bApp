@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import { TbCloverFilled } from "react-icons/tb";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,8 +11,10 @@ import {
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { BarLoader } from "react-spinners";
+import { useSelector } from "react-redux";
 
 const Registration = () => {
+  const userData = useSelector((state) => state.loggedData.user);
   const auth = getAuth();
   const navigate = useNavigate();
   const [passShow, setPassShow] = useState(false);
@@ -77,6 +79,11 @@ const Registration = () => {
         });
     }
   };
+  useEffect(() => {
+    if (userData) {
+      navigate("/");
+    }
+  }, []);
   return (
     <section className="bg-slate-700">
       <ToastContainer position="top-right" autoClose={5000} theme="light" />

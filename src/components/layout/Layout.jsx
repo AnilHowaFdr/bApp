@@ -7,11 +7,12 @@ const Layout = () => {
   const userData = useSelector((state) => state.loggedData.user);
   const navigate = useNavigate();
 
-  if (!userData) {
-    useEffect(() => {
+  useEffect(() => {
+    if (!userData) {
       navigate("/login");
-    }, []);
-  }
+    }
+  }, []);
+
   return (
     <>
       <Navbar />
