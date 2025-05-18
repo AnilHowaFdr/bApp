@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { BarLoader } from "react-spinners";
 import { currentUserData } from "../reducer/userSlice";
-
+import { getDatabase, ref, set } from "firebase/database";
 const Login = () => {
   const navigate = useNavigate();
+  const db = getDatabase();
   const dispatch = useDispatch();
   const auth = getAuth();
   const [passShow, setPassShow] = useState(false);
@@ -30,13 +35,17 @@ const Login = () => {
       setLoading(true);
       signInWithEmailAndPassword(auth, user.email, user.password)
         .then((res) => {
-          console.log(res.user);
-          dispatch(currentUserData(res.user));
-          localStorage.setItem("userData", JSON.stringify(res.user));
-          toast.success("Login successfully done!");
-          setTimeout(() => {
-            navigate("/");
-          }, 2000);
+          if (res.user.emailVerified) {
+            console.log(res.user);
+            dispatch(currentUserData(res.user));
+            localStorage.setItem("userData", JSON.stringify(res.user));
+            toast.success("Login successfully done!");
+            setTimeout(() => {
+              navigate("/");
+            }, 2000);
+          } else {
+            toast.error("Email is not verified, Please verify your email.");
+          }
         })
         .catch((error) => {
           if (error.code == "auth/invalid-email") {

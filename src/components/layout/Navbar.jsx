@@ -20,7 +20,7 @@ const Navbar = () => {
             </h3>
           </div>
           <div className="w-32 h-32 border-4 rounded-full">
-            <img src={userData?.photoURL} alt="profile" />
+            <img src="/user.png" alt="profile" />
           </div>
         </div>
       </div>
