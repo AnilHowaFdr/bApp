@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { getDatabase } from "firebase/database";
+import { getDatabase, set, ref } from "firebase/database";
+// import { useDispatch } from "react-redux";
+// import { currentTransferData } from "../../reducer/transferSlice";
 
 const TransferItems = () => {
   const db = getDatabase();
   const [amount, setAmount] = useState("");
   const [num, setNum] = useState("");
-
   const [password, setPassword] = useState("");
+  // const dispatch = useDispatch();
 
   const handleSend = () => {
     if (!num) {
@@ -14,12 +16,18 @@ const TransferItems = () => {
     } else if (!password) {
       alert("Pin Number is required");
     } else {
-      // set(ref(db, "amount/" + userId), {
-      //   username: name,
-      //   email: email,
-      //   profile_picture: imageUrl,
-      // });
-      console.log("success");
+      set(ref(db, "amount/"), {
+        num: num,
+        amount: amount,
+        pin: password,
+      })
+        .then(() => {
+          // dispatch(currentTransferData(transactions));
+          console.log(amount);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
     }
   };
   return (
@@ -83,6 +91,7 @@ const TransferItems = () => {
             type="number"
             placeholder="PIN"
             onChange={(e) => setPassword(e.target.value)}
+            value={password}
           />
         </div>
         <div className="w-fit mx-auto">
