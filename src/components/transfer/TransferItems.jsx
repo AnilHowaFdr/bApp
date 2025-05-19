@@ -7,22 +7,21 @@ const TransferItems = () => {
   const db = getDatabase();
   const [amount, setAmount] = useState("");
   const [num, setNum] = useState("");
-  const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
   // const dispatch = useDispatch();
 
   const handleSend = () => {
-    if (!num) {
+    if (!amount) {
+      alert("Amount is required");
+    } else if (!num) {
       alert("Number is required");
-    } else if (!password) {
-      alert("Pin Number is required");
     } else {
-      set(ref(db, "amount/"), {
+      set(ref(db, "amount/" + user.uid), {
         num: num,
-        amount: amount,
-        pin: password,
+        amounT: amount,
       })
         .then(() => {
-          // dispatch(currentTransferData(transactions));
+          // dispatch(currentTransferData(amount));
           console.log(amount);
         })
         .catch((err) => {
@@ -55,7 +54,7 @@ const TransferItems = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center gap-3 text-white font-bold text-lg">
+        {/* <div className="flex items-center justify-center gap-3 text-white font-bold text-lg">
           <div className="way ">
             <label htmlFor="sendMoney">Send Money</label>
             <input type="radio" name="option" id="sendMoney" />
@@ -64,7 +63,7 @@ const TransferItems = () => {
             <label htmlFor="cashOut">Cash Out</label>
             <input type="radio" name="option" id="cashOut" />
           </div>
-        </div>
+        </div> */}
         <div className="w-full max-w-[700px] mx-auto text-xl font-medium mt-5 px-5 relative ">
           <input
             className=" border outline-none text-purple-700 bg-white amount pl-5 px-1 w-full h-14 rounded-xl "
@@ -72,10 +71,10 @@ const TransferItems = () => {
             placeholder="Number"
             value={num}
             onChange={(e) => setNum(e.target.value)}
-          ></input>
+          />
           <p className="absolute top-4 right-10 text-[#32323288]"> Bkash </p>
         </div>
-        <div className="flex items-center justify-center my-8 text-gray-300 text-lg">
+        {/* <div className="flex items-center justify-center my-8 text-gray-300 text-lg">
           <div className="typeAgent ">
             <label htmlFor="agent">Agent</label>
             <input type="radio" name="or" id="agent" />
@@ -84,8 +83,8 @@ const TransferItems = () => {
             <label htmlFor="personal">Personal</label>
             <input type="radio" name="or" id="personal" />
           </div>
-        </div>
-        <div className="w-full max-w-[700px] mx-auto text-xl font-medium mt-5 px-5 relative ">
+        </div> */}
+        {/* <div className="w-full max-w-[700px] mx-auto text-xl font-medium mt-5 px-5 relative ">
           <input
             className=" border outline-none text-purple-700 bg-white amount pl-5 px-1 w-full h-14 rounded-xl "
             type="number"
@@ -93,7 +92,7 @@ const TransferItems = () => {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />
-        </div>
+        </div> */}
         <div className="w-fit mx-auto">
           <button
             onClick={handleSend}
