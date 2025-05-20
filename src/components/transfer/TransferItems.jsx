@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { getDatabase, set, ref } from "firebase/database";
+import React, { useEffect, useState } from "react";
+import { getDatabase, set, ref, push, onValue } from "firebase/database";
 import { FaChevronLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 // import { useDispatch } from "react-redux";
 // import { currentTransferData } from "../../reducer/transferSlice";
 
@@ -9,6 +10,7 @@ const TransferItems = () => {
   const db = getDatabase();
   const [amount, setAmount] = useState("");
   const [num, setNum] = useState("");
+  const userData = useSelector((state) => state.loggedData.user);
   // const [password, setPassword] = useState("");
   // const dispatch = useDispatch();
 
@@ -18,19 +20,30 @@ const TransferItems = () => {
     } else if (!num) {
       alert("Number is required");
     } else {
-      set(ref(db, "amount/" + user.uid), {
-        num: num,
-        amounT: amount,
-      })
-        .then(() => {
-          // dispatch(currentTransferData(amount));
-          console.log(amount);
+      set(
+        push(ref(db, "sendAmount/"), {
+          senderId: userData.uid,
+          senderName: userData.displayName,
+          senderImg: userData.photoURL,
+          sendNum: num,
+          sendAmount: amount,
+          // receiverId: data.key,
+          // receiverName: data.displayName,
+          // receiverImg: data.photoURL,
         })
-        .catch((err) => {
-          console.log(err.message);
-        });
+      );
     }
   };
+  useEffect(() => {
+    let arr = [];
+    onValue(ref(db, "sendAmount/"), (snapshot) => {
+      snapshot.forEach((item) => {
+        if (item.val().senderId === userData.uid) {
+          console.log(item.val());
+        }
+      });
+    });
+  }, []);
   return (
     <section>
       <div className="container mx-auto px-4">
@@ -73,7 +86,7 @@ const TransferItems = () => {
         </div> */}
         <div className="w-full max-w-[700px] mx-auto text-xl font-medium mt-5 px-5 relative ">
           <input
-            className=" border outline-none text-purple-700 bg-white amount pl-5 px-1 w-full h-14 rounded-xl "
+            className="border outline-none text-purple-700 bg-white amount pl-5 px-1 w-full h-14 rounded-xl "
             type="number"
             placeholder="Number"
             value={num}
