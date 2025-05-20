@@ -10,6 +10,7 @@ import ClientMoney from "./pages/ClientMoney";
 import Layout from "./components/layout/Layout";
 import Registration from "./pages/Registration";
 import Login from "./pages/Login";
+import Profile from "./pages/Profile";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/history" element={<History />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/transfer" element={<Transfer />} />
           <Route path="/request" element={<Request />} />
           <Route path="/minutes" element={<Minutes />} />

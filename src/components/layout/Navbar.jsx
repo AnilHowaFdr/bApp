@@ -1,5 +1,4 @@
 import React from "react";
-import { TbLogout2 } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { currentUserData } from "../../reducer/userSlice";
@@ -7,12 +6,6 @@ import { currentUserData } from "../../reducer/userSlice";
 const Navbar = () => {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.loggedData.user);
-  const handleLogOut = () => {
-    // console.log("logout");
-    // dispatch(currentUserData(null));
-    localStorage.removeItem("userData");
-    location.reload();
-  };
 
   return (
     <nav className="py-10">
@@ -24,21 +17,19 @@ const Navbar = () => {
             </button>
           </div>
           <div>
-            <h3 className="text-xl capitalize font-bold">
-              {userData?.displayName}
-            </h3>
+            <Link to="/profile">
+              <h3 className="text-xl capitalize font-bold">
+                {userData?.displayName}
+              </h3>
+            </Link>
           </div>
-          <div className="flex flex-col items-center justify-center">
+          {/* <div className="flex flex-col items-center justify-center">
             <div className="w-32 h-32 border-4 rounded-full">
-              <img src="/user.png" alt="profile" />
+              <Link to="/profile">
+                <img src="/user.png" alt="profile" />
+              </Link>
             </div>
-            <button
-              onClick={handleLogOut}
-              className="mt-4 text-[15px] text-black md:text-[17px] text-center overflow-hidden hover:text-white mb-2 hover:bg-transparent hover:border-[1px] hover:scale-110 active:scale-95 transition-all p-2 md:p-3 bg-white rounded-md flex items-center gap-2"
-            >
-              <TbLogout2 /> LogOut
-            </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </nav>
