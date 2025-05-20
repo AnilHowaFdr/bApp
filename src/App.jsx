@@ -11,6 +11,7 @@ import Layout from "./components/layout/Layout";
 import Registration from "./pages/Registration";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
+import User from "./pages/User";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/history" element={<History />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/transfer" element={<Transfer />} />
+          <Route path="/user" element={<User />} />
           <Route path="/request" element={<Request />} />
           <Route path="/minutes" element={<Minutes />} />
           <Route path="/clientMoney" element={<ClientMoney />} />

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { getDatabase, set, ref } from "firebase/database";
+import { FaChevronLeft } from "react-icons/fa";
+import { Link } from "react-router-dom";
 // import { useDispatch } from "react-redux";
 // import { currentTransferData } from "../../reducer/transferSlice";
 
@@ -32,7 +34,12 @@ const TransferItems = () => {
   return (
     <section>
       <div className="container mx-auto px-4">
-        <div className="w-full flex justify-between items-center mb-10">
+        <div className="text-2xl text-white pt-3">
+          <Link to="/">
+            <FaChevronLeft />
+          </Link>
+        </div>
+        <div className="w-full flex justify-between items-center mb-10 mt-4">
           <div className=" bg-white relative text-purple-700 border rounded-full w-[180px]">
             <input
               type="number"
