@@ -8,8 +8,10 @@ import { useSelector } from "react-redux";
 
 const TransferItems = () => {
   const db = getDatabase();
+  const [send, setSend] = useState([]);
   const [amount, setAmount] = useState("");
   const [num, setNum] = useState("");
+  const [type, setType] = useState("sendMoney");
   const userData = useSelector((state) => state.loggedData.user);
   // const [password, setPassword] = useState("");
   // const dispatch = useDispatch();
@@ -27,6 +29,7 @@ const TransferItems = () => {
           senderImg: userData.photoURL,
           sendNum: num,
           sendAmount: amount,
+          type: type,
           // receiverId: data.key,
           // receiverName: data.displayName,
           // receiverImg: data.photoURL,
@@ -34,16 +37,29 @@ const TransferItems = () => {
       );
     }
   };
+  // useEffect(() => {
+  //   let arr = [];
+  //   onValue(ref(db, "sendAmount/"), (snapshot) => {
+  //     snapshot.forEach((item) => {
+  //       // if (item.val().senderId === userData.uid) {
+  //       //   console.log(item.val());
+  //       // }
+  //       console.log(userData.uid);
+  //     });
+  //   });
+  // }, []);
   useEffect(() => {
     let arr = [];
     onValue(ref(db, "sendAmount/"), (snapshot) => {
       snapshot.forEach((item) => {
-        if (item.val().senderId === userData.uid) {
-          console.log(item.val());
-        }
+        const data = item.val();
+        const id = item.id;
+        arr.push({ ...data, id });
       });
+      setSend(arr);
     });
   }, []);
+
   return (
     <section>
       <div className="container mx-auto px-4">
@@ -74,16 +90,30 @@ const TransferItems = () => {
             </div>
           </div>
         </div>
-        {/* <div className="flex items-center justify-center gap-3 text-white font-bold text-lg">
+        <div className="flex items-center justify-center gap-3 text-white font-bold text-lg">
           <div className="way ">
             <label htmlFor="sendMoney">Send Money</label>
-            <input type="radio" name="option" id="sendMoney" />
+            <input
+              type="radio"
+              checked={type === "sendMoney"}
+              onChange={(e) => setType(e.target.value)}
+              value="send"
+              name="option"
+              id="sendMoney"
+            />
           </div>
           <div className="way">
             <label htmlFor="cashOut">Cash Out</label>
-            <input type="radio" name="option" id="cashOut" />
+            <input
+              type="radio"
+              checked={type === "cashOut"}
+              onChange={(e) => setType(e.target.value)}
+              name="option"
+              value="cashOut"
+              id="cashOut"
+            />
           </div>
-        </div> */}
+        </div>
         <div className="w-full max-w-[700px] mx-auto text-xl font-medium mt-5 px-5 relative ">
           <input
             className="border outline-none text-purple-700 bg-white amount pl-5 px-1 w-full h-14 rounded-xl "
