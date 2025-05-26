@@ -48,17 +48,17 @@ const TransferItems = () => {
   //     });
   //   });
   // }, []);
-  useEffect(() => {
-    let arr = [];
-    onValue(ref(db, "sendAmount/"), (snapshot) => {
-      snapshot.forEach((item) => {
-        const data = item.val();
-        const id = item.id;
-        arr.push({ ...data, id });
-      });
-      setSend(arr);
-    });
-  }, []);
+  // useEffect(() => {
+  //   let arr = [];
+  //   onValue(ref(db, "sendAmount/"), (snapshot) => {
+  //     snapshot.forEach((item) => {
+  //       const data = item.val();
+  //       const id = item.id;
+  //       arr.push({ ...data, id });
+  //     });
+  //     setSend(arr);
+  //   });
+  // }, []);
 
   return (
     <section>
